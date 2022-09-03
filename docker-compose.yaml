@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Server/Dockerfile
+    container_name: Server
+    volumes:
+      - servervol:/serverdata
+    ports:
+      - '8081:8081'
+    restart: on-failure
+
+  client:
+    build:
+      context: .
+      dockerfile: Client/Dockerfile
+    container_name: Client
+    volumes:
+      - clientvol:/clientdata
+    depends_on:
+      - server
+    restart: on-failure
+
+volumes:
+  servervol:
+  clientvol:
